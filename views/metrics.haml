@@ -1,0 +1,20 @@
+%html
+  %head
+    %title Metrics POC Dashboard
+    %script{:src => "/jquery.js", :type => "text/javascript", :charset => "utf-8"}
+    %script{:src => "/jquery.livesearch.js", :type => "text/javascript", :charset => "utf-8"}
+    %script{:src => "/livesearch.js", :type => "text/javascript", :charset => "utf-8"}
+  %body
+    %h1 jQuery Live Search Demo
+    %p
+      Search:
+      %input{:type => "text", :name => "q", :value => ""}
+        %span#count
+    %p#none{:style => "display:none"}There were no names to match your search!
+    %ul#names
+      - content.each do |item|
+        - graph = GraphiteGraph.new(:none)
+        - graph.field :foo, :data => "stats.#{item}"
+        %li
+          = item
+          %a{:href => "http://23.21.142.185/render?#{graph.url})", :target => "_blank"} link
